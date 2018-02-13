@@ -9,7 +9,7 @@ public class TestWeatherDataMunge {
 
     @Before
     public void init(){
-        String datFileLocation = "../resources/weather.dat";
+        String datFileLocation = "src/main/resources/weather.dat";
         weatherDataMunge = new WeatherDataMunge(datFileLocation);
     }
 
@@ -19,6 +19,30 @@ public class TestWeatherDataMunge {
         int column = 1;
         String actual = weatherDataMunge.readWeatherData(row,column);
         String emptyString = "";
-        assertNotEquals(emptyString, actual);
+        assertNotEquals(String.format("Expected: NOT %s", emptyString),emptyString, actual);
+    }
+
+    @Test
+    public void testReadColumnThreeRowThreeReturnsFiftyFive(){
+        int row = 3;
+        int column = 3;
+        String expected = "55";
+        String actual = weatherDataMunge.readWeatherData(row,column);
+        assertEquals(String.format("Expected: %s, Got: %s", expected, actual), expected, actual);
+    }
+
+    @Test
+    public void testTemperatureSpreadForDayOneIsTwentyNine(){
+        int day = 1;
+        float expected = 29;
+        float actual = weatherDataMunge.calculateTemperatureSpreadForDay(day);
+        assertEquals(String.format("Expected: %s, Got: %s", expected, actual), expected, actual, 0.01f);
+    }
+
+    @Test
+    public void testMinimumTemperatureSpreadIsFromDayFourteen(){
+        int expected = 14;
+        int actual = weatherDataMunge.calculateMinimumTemperatureSpread();
+        assertEquals(String.format("Expected: %s, Got: %s", expected, actual), expected, actual);
     }
 }
